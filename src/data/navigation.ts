@@ -1,5 +1,9 @@
+import React, { useState, useEffect } from 'react'
+import { LocationStates } from 'routers/types';
+import { categoriesRequest } from 'services/category/categoryService';
 import { NavItemType } from "shared/Navigation/NavigationItem";
 import ncNanoId from "utils/ncNanoId";
+
 
 export const MEGAMENU_TEMPLATES: NavItemType[] = [
   {
@@ -212,3 +216,33 @@ export const NAVIGATION_DEMO_2: NavItemType[] = [
     children: OTHER_PAGE_CHILD,
   },
 ];
+
+
+async function getCategories() {
+  try {
+    const data = await categoriesRequest;
+
+    const categoryData = data.map((item: any) => {
+      const href: keyof LocationStates = "category" as keyof LocationStates;
+      return { ...item, href };
+    });
+
+    const categoryNavItem: NavItemType = {
+      id: ncNanoId(),
+      href: "/page-collection",
+      name: "Category",
+      type: "dropdown",
+      children: categoryData,
+    };
+
+    const updatedNavigation = [categoryNavItem, ...NAVIGATION_DEMO_2];
+
+    return updatedNavigation;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
+
+
+export { getCategories }

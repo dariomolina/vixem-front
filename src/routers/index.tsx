@@ -59,6 +59,7 @@ export const pages: Page[] = [
   { path: "/signup", component: PageSignUp },
   { path: "/login", component: PageLogin },
   { path: "/subscription", component: PageSubcription },
+  { path: "/category/:id", component: PageCollection },
 ];
 
 const MyRoutes = () => {
